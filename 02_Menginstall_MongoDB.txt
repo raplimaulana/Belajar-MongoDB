@@ -1,0 +1,13 @@
+### MENIGNSTALL MONGODB ###
+https://www.mongodb.com/try/download/community 
+Download MongoDB dalam bentuk archive file, Lalu extract archive file tersebut di komputer kita.
+Di dalam archive file tersebut akan terdapat file binary dengan nama file bin/mongod, yaitu mongo daemon, untuk digunakan menjalankan aplikasi MongoDB Server.
+
+/mongodb-arch64-7.0.0/bin/mongod
+
+##Menjalankan MongoDB
+Buat folder untuk menyimpan data MongoDB.
+Gunakan perintah bin/mongod --dbpath=lokasi/folder/data.
+Untuk menghentikannya, cukup gunakan perintah Ctrl + C.
+
+/mongodb-arch64-7.0.0/bin/mongod --dbpath=data      #/mongodb-arch64-7.0.0/data

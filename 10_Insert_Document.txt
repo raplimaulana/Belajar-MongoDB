@@ -1,0 +1,53 @@
+### INSERT DOCUMENT ###
+
+##Insert Document
+Untuk menyimpan data ke MongoDB, kita perlu membuat document dalam bentuk JSON.
+Field _id tidak wajib dimasukkan, jika kita tidak memasukkan field _id, maka secara otomatis MongoDB akan membuat _id baru secara random dengan tipe data ObjectId.
+Atau kita juga bisa secara eksplisit membuat ObjectId baru dengan menggunakan perintah “new ObjectId()”.
+
+##Insert Document Function
+-----------------------------------------------------------------------------------------------
+| Function                                    |                  Keterangan                   |
+|---------------------------------------------|-----------------------------------------------|
+| db.<collection>.insertOne(document)         | Menambah dokumen ke collection                |
+|---------------------------------------------|-----------------------------------------------|
+| db.<collection>.insertMany(array<document>) | Menambah semua dokumen di array ke collection |
+|---------------------------------------------|-----------------------------------------------|
+
+#Insert customers document
+db.customers.insertOne({
+    _id: "rapli",
+    name: "Rapli Maulana Aji"
+})
+
+#Insert product document
+db.products.insertMany([
+    {
+        _id: 1,
+        name: "Indomie Ayam Bawang",
+        price: new NumberLong("2000")
+    },
+    {
+        _id: 2,
+        name: "Mie Sedap Soto",
+        price: new NumberLong("2000")
+    }
+])
+
+#Insert order document
+db.orders.insertOne({
+    _id: new ObjectId(),                            #new ObjectId() tidak diisi juga tidak apa apa, akan otomatis terbuat
+    total: new NumberLong("8000"),
+    items: [
+        {
+            product_id: 1,
+            price: new NumberLong("2000"),
+            quantity: new NumberInt("2")
+        },
+        {
+            product_id: 2,
+            price: new NumberLong("2000"),
+            quantity: new NumberInt("2")
+        }
+    ]
+})

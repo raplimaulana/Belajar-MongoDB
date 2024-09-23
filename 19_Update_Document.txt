@@ -1,0 +1,102 @@
+### UPDATE DOCUMENT ###
+
+##Update Document
+Sama seperti database lainnya, di MongoDB juga kita bisa mengubah document yang sudah kita insert ke collection
+Namun berbeda dengan perintah SQL, di MongoDB, untuk mengubah document, kita diberikan beberapa function
+
+##Update Document Function
+------------------------------------------------------------------------------------------
+| Operator     |                             Keterangan                                  |
+|--------------|-------------------------------------------------------------------------|
+| updateOne()  | Mengubah satu document                                                  |
+|--------------|-------------------------------------------------------------------------|
+| updateMany() | Mengubah banyak document sekaligus                                      |
+|--------------|-------------------------------------------------------------------------|
+| replaceOne() | Mengubah total satu document dengan document baru                       |
+|--------------|-------------------------------------------------------------------------|
+
+##Update document syntax
+
+1. updateOne() syntax
+
+   db.products.updateOne(
+       {}, //filter
+       {}, //update
+       {} //option 
+   )
+
+   #Update products set category = "food" where _id = 1
+   db.products.updateOne({
+       _id: 1
+   }, {
+       $set: {
+           category: 'food'
+       }
+   })
+
+   #Update products set category = "food" where _id = 2
+   db.products.updateOne({
+       _id: 2
+   }, {
+       $set: {
+           category: 'food'
+       }
+   })
+
+   *jika terdapat banyak data dengan kategori 'food', maka dia akan update data yang paling pertama
+    disarankan menggunakan many jika ingin mengubah nama atau kategori yang sama 
+
+2. updateMany() syntax
+
+   db.products.updateMany(
+       {}, //filter
+       {}, //update
+       {} //option 
+   )
+
+   #Update products set tags = ["food"] where category = "food" and tags is null
+   db.products.updateMany({
+       $and: [
+           {
+               category: {
+                   $eq: 'food'
+               }
+           },
+           {
+               tags: {
+                   $exists: false
+               }
+           }
+       ]
+   }, {
+       $set: {
+           tags: ['food']
+       }
+   })
+
+3. replaceOne() syntax
+
+   db.products.replaceOne(
+       {}, //filter
+       {}, //update
+       {} //option 
+   )
+
+   #Insert wrong document
+   db.products.insertOne({
+       _id: 9,
+       name: 'ups salah',
+       wrong: 'salah'
+   })
+
+   #Replace document with id 9
+   db.products.replaceOne({
+       _id: 9
+   }, {
+       name: 'Adidas Sepatu Lari Pria',
+       price: new NumberLong("1100000"),
+       category: "shoes",
+       tags: [
+           'adidas', 'shoes', 'running'
+       ]
+   })

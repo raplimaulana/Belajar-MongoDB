@@ -1,0 +1,56 @@
+### ARRAY QUERY OPERATOR ###
+
+##Array Operator
+----------------------------------------------------------------------------------------
+| Operator   |                              Keterangan                                 |
+|------------|-------------------------------------------------------------------------|
+| $all       | Mencocokkan array yang mengandung elemen-elemen tertentu                |
+|------------|-------------------------------------------------------------------------|
+| $elemMatch | Mengambil document jika tiap element di array memenuhi kondisi tertentu |
+|------------|-------------------------------------------------------------------------|
+| $size      | Mengambil document jika ukuran array sesuai                             |
+|------------|-------------------------------------------------------------------------|
+
+db.products.insertMany([
+    {
+        _id: 6,
+        name: "Logitech Wireless Mouse",
+        price: new NumberLong("175000"),
+        category: "laptop",
+        tags: ["logitech", "mouse", "accessories"]
+    },
+    {
+        _id: 7,
+        name: "Cooler Pad Gaming",
+        price: new NumberLong("200000"),
+        category: "laptop",
+        tags: ["cooler", "laptop", "accessories", "fan"]
+    },
+    {
+        _id: 8,
+        name: "Samsung Curve Monitor",
+        price: new NumberLong("1750000"),
+        category: "computer",
+        tags: ["samsung", "monitor", "computer"]
+    }
+])
+
+db.products.find({
+    tags: {
+        $all: ['samsung', 'monitor']
+    }
+})
+
+db.products.find({
+    tags: {
+        $elemMatch: {
+            $in: ['samsung', 'logitech']
+        }
+    }
+})
+
+db.products.find({
+    tags: {
+        $size: 4
+    }
+})

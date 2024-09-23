@@ -1,0 +1,67 @@
+### PROJECTION OPERATOR ###
+
+##Projection
+Pada function find, terdapat parameter kedua setelah query, yaitu projection.
+Projection adalah memilih field mana yang ingin kita ambil atau hide.
+db.<collection>.find(query, projection)
+
+db.products.find({}, {
+    name: 1,                        #1 = data ditampilkan
+    category: 1
+})
+
+db.products.find({}, {
+    tags: 0,                        #0 = data tidak ditampilkan
+    price: 0
+})
+
+*mau di define atau tidak, _id selalu dipanggil
+
+##Projection Operator
+----------------------------------------------------------------------------------------------
+| Operator   |                                Keterangan                                     |
+|------------|-------------------------------------------------------------------------------|
+| $          | Limit array hanya mengembalikan data pertama yang match dengan array operator |
+|------------|-------------------------------------------------------------------------------|
+| $elemMatch | Limit array hanya mengembalikan data pertama yang match dengan kondisi query  |
+|------------|-------------------------------------------------------------------------------|
+| $meta      | Mengembalikan informasi metadata yang didapat dari setiap matching document   |
+|------------|-------------------------------------------------------------------------------|
+| $slice     | Mengontrol jumlah data yang ditampilkan pada array                            |
+|------------|-------------------------------------------------------------------------------|
+
+1. $elemMatch operator
+   db.products.find({}, {
+       name: 1,
+       tags: {
+           $elemMatch: {
+               $in: ['samsung', 'logitech', 'accessories']
+           }
+       }
+   })
+
+2. $ operator
+   db.products.find({
+       tags: {
+           $exists: true
+       }
+   }, {
+       name: 1,
+       "tags.$": 1
+   })
+
+3. $slice operator
+   db.products.find({
+       tags: {
+           $exists: true
+       }
+   }, {
+       name: 1,
+       tags: {
+           $slice: 2
+       }
+   })
+
+4. $meta operator
+   Untuk menggunakan $meta operator, kita harus membuat Text Index terlebih dahulu.
+   Materi ini akan kita bahas di materi Text Index.

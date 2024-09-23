@@ -1,0 +1,89 @@
+### EVALUATION QUERY OPERATOR ###
+
+##Evaluation Operator
+----------------------------------------------------------------------------------------
+| Operator    |                       Keterangan                                       |
+|-------------|------------------------------------------------------------------------|
+| $expr       | Menggunakan aggregation operation                                      |
+|-------------|------------------------------------------------------------------------|
+| $jsonSchema | Validasi document sesuai dengan JSON schema (https://json-schema.org/) |
+|-------------|------------------------------------------------------------------------|
+| $mod        | Melakukan operasi modulo                                               |
+|-------------|------------------------------------------------------------------------|
+| $regex      | Mengambil document sesuai dengan regular expression (PCRE)             |
+|-------------|------------------------------------------------------------------------|
+| $text       | Melakukan pencarian menggunakan text                                   |
+|-------------|------------------------------------------------------------------------|
+| $where      | Mengambil document dengan javaScript Function                          |
+|-------------|------------------------------------------------------------------------|
+
+1. $expr operator
+   db.customers.insertOne({
+       _id: 'joko',
+       name: 'joko'
+   })
+
+   db.customers.find({
+       $expr: {
+           $eq: ['$_id', '$name']
+       }
+   })
+
+2. $jsonSchema operator 
+   db.products.find({
+       $jsonSchema: {
+           required: ['name', 'category']
+       }
+   })
+
+   db.products.find({
+       $jsonSchema: {
+           required: ['name'],
+           properties: {
+               name: {
+                   type: 'string'
+               },
+               price: {
+                   type: 'number'
+               }
+           }
+       }
+   })
+
+3. $mod operator
+   db.products.find({
+       price: {
+           $mod: [5, 0]
+       }
+   })
+
+   db.products.find({
+       price: {
+           $mod: [1000000, 0]
+       }
+   })
+
+4. $regex operator
+   db.products.find({
+       name: {
+           $regex: /mie/,
+           $options: 'i'
+       }
+   })
+
+   db.products.find({
+       name: {
+           $regex: /^Mie/
+       }
+   })
+
+5. $where operator
+   db.customers.find({
+       $where: function (){
+           return this._id == this.name;
+       }
+   })
+
+6. $text Operator
+   Untuk menggunakan $text operator, kita harus mengerti tentang Text Index terlebih dahulu.
+   Oleh karena ini, $text operator akan kita bahas di materi Text Index.

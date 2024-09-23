@@ -1,0 +1,47 @@
+### ELEMENT QUERY OPERATOR ###
+
+##Element Operator
+--------------------------------------------------------------------------
+| Operator |                       Keterangan                            |
+|----------|-------------------------------------------------------------|
+| $exists  | Mencocokkan document yang memiliki field tersebut           |
+|----------|-------------------------------------------------------------|
+| $type    | Mencocokkan document yang memiliki type field tersebut      |
+|----------|-------------------------------------------------------------|
+
+##Element operator syntax
+1. $exists operator
+   db.products.find({
+       category: {
+           $operator: value                    #ubah $operator dengan operator diatas
+       }
+   })
+
+   #Select * from products where category is not null
+   db.products.find({
+       category: {
+           $exists: true
+       }
+    })
+
+   #Select * from products where category is null
+   db.products.find({
+       category: {
+           $exists: false
+       }
+   })
+
+1. $type operator
+   #Select * from products where type(category) = 'string'
+   db.products.find({
+       category: {
+           $type: "string"
+       }
+   })
+
+   ##Select * from products where type(price) in ('int', 'long')
+   db.products.find({
+       price: {
+           $type: ['int', 'long']
+       }
+   })

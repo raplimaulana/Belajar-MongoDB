@@ -1,0 +1,131 @@
+### USER ###
+
+##Authentication
+Authentication adalah proses memverifikasi identitas pengguna ketika mengakses MongoDB.
+Saat menggunakan authentication, maka client wajib menggunakan username dan password untuk terkoneksi ke MongoDB server.
+
+##User
+Di MongoDB, kita bisa menambahkan user, dan juga menambahkan role ke user tersebut.
+Saat kita membuat user, kita harus menentukan database sebagai authentication database.
+Namun bukan berarti user hanya bisa mengakses database itu saya, tapi user juga bisa mengakses database lain jika mau.
+Nama user harus unik per database, namun jika database nya berbeda, kita bisa membuat user dengan nama yang sama.
+
+##User Function
+---------------------------------------------------------------------
+|        Function         |               Keterangan                |
+|-------------------------|-----------------------------------------|
+| db.createUser()         | Membuat user                            |
+|-------------------------|-----------------------------------------|
+| db.getUsers()           | Mendapatkan semua user                  |
+|-------------------------|-----------------------------------------|
+| db.dropUser()           | Menghapus user                          |
+|-------------------------|-----------------------------------------|
+| db.updateUser()         | Mengupdate user                         |
+|-------------------------|-----------------------------------------|
+| db.changeUserPassword() | Insert document secara banyak sekaligus |
+|-------------------------|-----------------------------------------|
+
+
+##Authorization
+Authorization adalah proses yang dilakukan setelah proses Authentication sukses.
+Authorization dilakukan untuk melakukan pengecekan apakah user memiliki hak akses untuk melakukan sebuah action.
+Hak akses di MongoDB disimpan dalam bentuk role.
+
+##Database Roles
+----------------------------------------------------------------------------------------------------------
+|        Role          |                                   Keterangan                                    |
+|----------------------|---------------------------------------------------------------------------------|
+| read                 | Bisa membaca data di semua collection yang bukan sistem collection              |
+|----------------------|---------------------------------------------------------------------------------|
+| readWrite            | Bisa membaca dan mengubah data di semua collection yang bukan sistem collection |
+|----------------------|---------------------------------------------------------------------------------|
+| dbAdmin              | Bisa melakukan kemampuan administrasi database                                  |
+|----------------------|---------------------------------------------------------------------------------|
+| userAdmin            | Mampu membuat user dan role                                                     |
+|----------------------|---------------------------------------------------------------------------------|
+| dbOwner              | Kombinasi readWrite, dbAdmin dan userAdmin                                      |
+|----------------------|---------------------------------------------------------------------------------|
+
+##All Database Roles
+----------------------------------------------------------------------------------------------------------
+|        Role          |                                   Keterangan                                    |
+|----------------------|---------------------------------------------------------------------------------|
+| readAnyDatabase      | Seperti read role, tapi untuk semua database                                    |
+|----------------------|---------------------------------------------------------------------------------|
+| readWriteAnyDatabase | Seperti readWrite role, tapi untuk semua database                               |
+|----------------------|---------------------------------------------------------------------------------|
+| userAdminAnyDatabase | Seperti userAdmin, tapi untuk semua database                                    |
+|----------------------|---------------------------------------------------------------------------------|
+| dbAdminAnyDatabase   | Seperti dbAdmin, tapi untuk semua database                                      |
+|----------------------|---------------------------------------------------------------------------------|
+
+##Backup & Restore Roles
+-----------------------------------------------------------
+|  Role   |                Keterangan                     |
+|---------|-----------------------------------------------|
+| backup  | Kemampuan untuk melakukan backup database     |
+|---------|-----------------------------------------------|
+| restore | Kemampuan untuk melakukan restore database    |
+|---------|-----------------------------------------------|
+
+##Superuser Roles
+-----------------------------------------------------------
+|  Role   |                Keterangan                     |
+|---------|-----------------------------------------------|
+| root    | Bisa melakukan apapun                         |
+|---------|-----------------------------------------------|
+
+
+##User Management
+use admin
+
+#Create user with access read only
+db.createUser({
+    user: 'contoh',
+    pwd: 'contoh',
+    roles: [
+        {
+            role: 'read',
+            db: 'test'
+        }
+    ]
+})
+
+#Create user with access read write
+db.createUser({
+    user: 'contoh2',
+    pwd: 'contoh2',
+    roles: [
+        {
+            role: 'readWrite',
+            db: 'test'
+        }
+    ]
+})
+
+#login
+"mongodb://contoh:rahasia@localhost:27017/test?authSource=admin"
+"mongodb://contoh2:contoh2@localhost:27017/test?authSource=admin"
+
+#Get all users
+db.getUsers()
+
+#Change password for user contoh
+db.changeUserPassword('contoh', 'rahasia')
+
+#Drop user contoh
+db.dropUser("contoh")
+
+#Update user
+db.updateUser("contoh2", {
+    roles: [
+        {
+            role: 'readWrite',
+            db: 'test'
+        },
+        {
+            role: 'readWrite',
+            db: 'belajar'
+        }
+    ]
+})

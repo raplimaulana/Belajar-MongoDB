@@ -1,0 +1,15 @@
+### RESTORE ###
+
+##Aplikasi MongoDB Tools
+Untuk melakukan restore, kita bisa menggunakan aplikasi tergantung saat kita melakukan backup.
+mongorestore digunakan untuk melakukan restore hasil backup mongodump.
+mongoimport digunakan untuk melakukan restore hasil backup mongoexport.
+
+1. Restore Menggunakan mongorestore
+   bin/mongorestore --uri="mongodb://mongo:mongo@localhost:27017/belajar_restore?authSource=admin" --dir=backup-dump/belajar                        #/mongodb-arch64-7.0.0/backup-dump/belajar
+
+2. Restore Menggunakan mongoimport
+   bin/mongoimport --uri="mongodb://mongo:mongo@localhost:27017/belajar_import?authSource=admin"  --collection=customers --file=customers.json      #/mongodb-arch64-7.0.0/customers.json 
+
+
+

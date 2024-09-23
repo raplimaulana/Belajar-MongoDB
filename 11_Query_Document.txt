@@ -1,0 +1,29 @@
+### QUERY DOCUMENT ###
+
+##Query Document
+Sama seperti di relational database, di MongoDB pun kita bisa melakukan query atau pencarian document yang sudah kita simpan di collection.
+
+##Query Document Function
+-----------------------------------------------------------------------------------------------
+| Function                                    |                  Keterangan                   |
+|---------------------------------------------|-----------------------------------------------|
+| db.<collection>.find(query)                 | Mencari document dengan query                 |
+|---------------------------------------------|-----------------------------------------------|
+
+#Select * from customers where _id = "rapli"
+db.customers.find({
+    _id: "rapli"
+})
+
+#Select * from customers where name = "Rapli Maulana Aji"
+db.customers.find({
+    name: "Rapli Maulana Aji"
+})
+
+db.products.find({
+    price: 2000
+})
+
+db.orders.find({
+    "items.product_id": 1
+})

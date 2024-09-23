@@ -1,0 +1,223 @@
+### ARRAY UPDATE OPERATOR ###
+
+##Array Update Operator
+Secara default, saat kita mengubah field dengan tipe array, maka seluruh array akan diubah.
+Kadang  kita ingin menambah, atau hanya mengubah data array tanpa harus mengubah seluruh field array.
+Hal ini bisa dilakukan di MongoDB.
+
+---------------------------------------------------------------------------------------------
+| Operator        |                              Keterangan                                 |
+|-----------------|-------------------------------------------------------------------------|
+| $               | Mengupdate data array pertama sesuai kondisi query                      |
+|-----------------|-------------------------------------------------------------------------|
+| $[]             | Mengupdate semua data array sesuai kondisi query                        |
+|-----------------|-------------------------------------------------------------------------|
+| $[<identifier>] | Mengupdate semua data array yang sesuai kondisi arrayFilters            |
+|-----------------|-------------------------------------------------------------------------|
+| <index>         | Mengupdate data array sesuai dengan nomor index                         |
+|-----------------|-------------------------------------------------------------------------|
+| $addToset       | Menambahkan value ke array, dihiraukan jika sudah ada                   |
+|-----------------|-------------------------------------------------------------------------|
+| $pop            | Menghapus element pertama (-1) atau terakhir (1) array                  |
+|-----------------|-------------------------------------------------------------------------|
+| $pull           | Menghapus semua element di array yang sesuai kondisi                    |
+|-----------------|-------------------------------------------------------------------------|
+| $push           | Menambahkan element ke array                                            |
+|-----------------|-------------------------------------------------------------------------|
+| $pullAll        | Menghapus semua element di array                                        |
+|-----------------|-------------------------------------------------------------------------|
+
+1. $ operator 
+
+   #Update products set ratings = [90, 80, 70]
+   db.products.updateMany({}, {
+       $set: {
+           ratings: [90, 80, 70]
+       }
+   })
+
+   #Update first element of array, query must include array fields
+   db.products.updateMany({
+       ratings: 90
+   }, {
+       $set: {
+           'ratings.$': 100
+       }
+   })
+
+2. $[] operator
+
+   #Update all element of array to 100
+   db.products.updateMany({}, {
+       $set: {
+           'ratings.$[]': 100
+       }
+   })
+
+3. Array $[<identifier>] operator
+
+   #Update products set ratings = [90, 80, 70]
+   db.products.updateMany({}, {
+       $set: {
+           ratings: [90, 80, 70]
+       }
+   })
+
+   #Update element of array based on arrayFilters
+   db.products.updateMany({}, {
+       $set: {
+           'ratings.$[element]' : 100
+       }
+   }, {
+       arrayFilters: [
+           {
+               element: {
+                   $gte: 80
+               }
+           }
+       ]
+   })
+
+4. Array <index> operator
+
+   #Update element of array with given index
+   db.products.updateMany({}, {
+       $set: {
+           'ratings.0': 50,
+           'ratings.1': 60
+       }
+   })
+
+5. Array $addToset 
+   
+   #select * from products where _id = 1  
+   db.products.find({_id: 1})
+
+   #add 'popular' to array if not exist
+   db.products.updateOne({_id: 1}, {
+       $addToSet: {
+           tags: 'popular'
+       }
+   })
+
+6. Array $pop operator
+
+   #Remove first element with array
+   db.products.updateOne({_id: 1}, {
+       $pop: {
+           ratings: -1
+       }
+   })
+
+   #select * from products where _id = 2
+   db.products.find({_id: 2})
+
+   #remove last element with array
+   db.products.updateOne({_id: 2}, {
+       $pop: {
+           ratings: 1
+       }
+   })
+
+7. Array $pull, $push and $pullAll operator
+
+   #Update products set rating = [90, 80, 70]
+   db.products.updateMany({}, {
+       $set: {
+           ratings: [90, 80, 70]
+       }
+   })
+
+   #Remove all element where ratings >= 80
+   db.products.updateMany({}, {
+       $pull: {
+           ratings: {
+               $gte: 80
+           }
+       }
+   })
+
+   #Add 100 to ratings
+   db.products.updateMany({}, {
+       $push: {
+           ratings: 100
+       }
+   })
+
+   #Remove element 100 and 0
+   db.products.updateMany({}, {
+       $pullAll: {
+           ratings: [100, 0]
+       }
+   })
+
+
+##Array Update Operator Modifier
+---------------------------------------------------------------------------------------
+| Operator  |                              Keterangan                                 |
+|-----------|-------------------------------------------------------------------------|
+| $each     | Digunakan di $addToSet dan $push, untuk menambahkan multiple element    |
+|-----------|-------------------------------------------------------------------------|
+| $position | Digunakan di $push untuk mengubah posisi menambahkan data               |
+|-----------|-------------------------------------------------------------------------|
+| $slice    | Digunakan di $push untuk menentukan jumlah maksimal data array          |
+|-----------|-------------------------------------------------------------------------|
+| $sort     | Digunakan untuk mengurutkan array setelah operasi $push                 |
+|-----------|-------------------------------------------------------------------------|
+
+1. $each operator
+
+   #add 10, 200, 300 to ratings
+   db.products.updateMany({}, {
+       $push: {
+           ratings: {
+               $each: [100, 200, 300]
+           }
+       }
+   })
+
+   #Add 'trending' and 'popular' to tags
+   db.products.updateMany({}, {
+       $addToSet: {
+           tags: {
+               $each: ['trending', 'popular']
+           }
+       }
+   })
+
+2. $position operator
+
+   #Add hot in position 1
+   db.products.updateMany({}, {
+       $push: {
+           tags: {
+               $each: ['hot'],
+               $position: 1
+           }
+       }
+   })
+
+3. $sort operator 
+
+   #Add all element and sort desc
+   db.products.updateMany({}, {
+       $push: {
+           ratings: {
+               $each: [100, 200, 300, 400, 500],
+               $sort: -1                                #-1 = descending
+           }
+       }
+   })
+
+4. $slice operator
+
+   #Add all element, but limit with slice from behind
+db.products.updateMany({}, {
+    $push: {
+        ratings: {
+            $each: [100, 200, 300, 400, 500],
+            $slice: 3,
+            $sort: -1
+        }
+    }
+})

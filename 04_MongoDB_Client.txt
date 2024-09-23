@@ -1,0 +1,8 @@
+### MONGODB CLIENT ###
+
+##Mongo Client
+Setelah kita menginstall aplikasi client seperti MongoDB Compass, kita bisa mulai melakukan koneksi dari aplikasi client ke MongoDB Server.
+Secara default, MongoDB akan berjalan menggunakan port 27017.
+
+##MongoDB Compass
+New connections > URI > mongodb://localhost:27017/ > Connect 

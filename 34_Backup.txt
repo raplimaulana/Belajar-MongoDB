@@ -1,0 +1,19 @@
+### BACKUP ###
+
+##MongoDB Tools
+MongoDB tidak memiliki bawaan aplikasi untuk melakukan backup dan restore.
+Tapi untungnya, MongoDB juga menyediakan aplikasi lain yang bisa digunakan untuk mempermudah kita melakukan backup dan restore, namanya adalah MongoDB Tools.
+Ini adalah aplikasi berbasis terminal yang bisa kita download secara gratis.
+https://www.mongodb.com/try/download/database-tools 
+
+##Aplikasi MongoDB Tools
+Di dalam MongoDB Tools terdapat beberapa aplikasi yang bisa kita gunakan untuk melakukan backup.
+mongodump adalah aplikasi yang digunakan untuk melakukan backup dalam format binary, cocok untuk database yang berisi data binary atau ukuran yang sangat besar.
+mongoexport adalah aplikasi yang digunakan untuk melakukan backup dalam format JSON / CSV, cocok untuk jenis database yang hanya berisi teks dan berukuran tidak terlalu besar, dan hanya bisa per collection.
+
+1. Backup Menggunakan mongodump
+   /mongodb-arch64-7.0.0/bin/mongodump --uri="mongodb://mongo:mongo@localhost:27017/belajar?authSource=admin" --out=backup-dump                                 #/mongodb-arch64-7.0.0/backup-dump
+
+2. Backup Menggunakan mongoexport
+   /mongodb-arch64-7.0.0/bin/mongoexport --uri="mongodb://mongo:mongo@localhost:27017/belajar?authSource=admin"  --collection=customers --out=customers.json    #/mongodb-arch64-7.0.0/customers.json 
+   

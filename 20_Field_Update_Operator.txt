@@ -1,0 +1,74 @@
+### FIELD UPDATE OPERATOR ###
+
+##Field Update Operator
+Sebelumnya kita sudah tau kalo untuk update document di MongoDB kita bisa menggunakan operator $set.
+Namun sebenarnya masih banyak operator yang bisa kita gunakan.
+
+##Update Document Function
+------------------------------------------------------------------------------------------
+| Operator     |                              Keterangan                                 |
+|--------------|-------------------------------------------------------------------------|
+| $set         | Mengubah nilai field di document                                        |
+|--------------|-------------------------------------------------------------------------|
+| $unset       | Menghapus field di document                                             |
+|--------------|-------------------------------------------------------------------------|
+| $rename      | Mengubah nama field di document                                         |
+|--------------|-------------------------------------------------------------------------|
+| $inc         | Menaikan nilai number di field sesuai dengan jumlah tertentu            |
+|--------------|-------------------------------------------------------------------------|
+| $currentDate | Mengubah field menjadi waktu saat ini                                   |
+|--------------|-------------------------------------------------------------------------|
+
+1. $set operator
+
+   #Update products set stock = 0
+   db.products.updateMany({}, {
+       $set: {
+           stock: 0
+       }
+   })
+
+2. $inc operator
+
+   #Update products set stock = stock + 10
+   db.products.updateMany({}, {
+       $inc: {
+           stock: 10
+       }
+   })
+
+3. $rename operator
+
+   #Alter table costumers change name full_name
+   db.customers.updateMany({}, {
+       $rename: {
+           name: 'full_name'
+       }
+   })
+
+4. $unset operator
+
+   #Update customers set wrong = 'ups'
+   db.customers.updateMany({}, {
+       $set: {
+           wrong: 'ups'
+       }
+   })
+
+   #Alter table cutomers drop column wrong
+   db.customers.updateMany({}, {
+       $unset: {
+           wrong: ''
+       }
+   })
+
+5. $currentDate operator
+
+   #Update products set lastModifiedDate = current_date()
+   db.products.updateMany({}, {
+       $currentDate: {
+           lastModifiedDate: {
+               $type: 'date'
+           }
+       }
+   })

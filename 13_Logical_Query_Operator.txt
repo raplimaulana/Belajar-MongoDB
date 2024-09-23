@@ -1,0 +1,72 @@
+### LOGICAL QUERY OPERATOR ###
+
+##Logical Operator
+----------------------------------------------------------------------------------------------------------
+| Operator |                                        Keterangan                                           |
+|----------|---------------------------------------------------------------------------------------------|
+| $and     | Menggabungkan query dengan operasi AND, mengembalikan document jika semua kondisi benar     |
+|----------|---------------------------------------------------------------------------------------------|
+| $or      | Menggabungkan query dengan operasi OR, mengembalikan document jika salah satu kondisi benar |
+|----------|---------------------------------------------------------------------------------------------|
+| $nor     | Menggabungkan query dengan operasi NOR, mengembalikan document yang gagal di semua kondisi  |
+|----------|---------------------------------------------------------------------------------------------|
+| $not     | Membalikkan kondisi, mengembalikan document yang tidak sesuai kondisi                       |
+|----------|---------------------------------------------------------------------------------------------|
+
+##Logical operator syntax 
+1. Logical operator for $and, $or and $nor 
+   db.products.find({
+       $operator: [                                #ubah $operator dengan operator diatas
+           {
+               //query
+           },
+           {
+               //query 
+           }
+       ]
+   })
+
+   #Select * from products where category in ('handphone', 'laptop') and price > 10000000
+   db.products.find({
+       $and: [
+           {
+               category: {
+                   $in: ["laptop", "handphone"]
+               }
+           },
+           {
+               price: {
+                   $gt: 10000000
+               }
+           }
+       ]
+   })
+
+2. Logical operator for $not 
+   db.products.find({
+       category: {
+           $not: {
+               //query
+           }
+       }
+   })
+
+   #Select * from products where category not in ('handphone', 'laptop') 
+   db.products.find({
+       category: {
+           $not: {
+               $in: ['laptop', 'handphone']
+           }
+       }
+   })
+
+   #Select * from products where price between 10000000 and 20000000 and category category != 'food' 
+   db.products.find({
+       price: {
+           $gte: 10000000,
+           $lte: 20000000
+       }
+       category: {
+           $ne: 'food'
+       }
+   })

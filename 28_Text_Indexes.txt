@@ -1,0 +1,72 @@
+### TEXT INDEXES ###
+
+##Text Indexes
+MongoDB menyediakan text index untuk mendukung pencarian text di tipe data string.
+Text index tidak hanya bisa digunakan pada field dengan tipe data string, namun juga pada array berisi tipe data string.
+Text index lebih cepat dibanding menggunakan $regex, karena $regex akan melakukan pencarian scanning sehingga semakin besar data semakin banyak.
+Walaupun fitur Text Index bagus, tapi fitur nya tidak secanggih Search Engine, oleh karena itu sangat direkomendasikan menggunakan database khusus Search Engine jika kita butuh membuat fitur pencarian layaknya Search Engine, contohnya database Elasticsearch.
+
+#Create index text
+db.products.createIndex({
+    name: 'text',
+    category: 'text',
+    tags: 'text'
+}, {
+    weights:{
+        name: 10,                   #semakin besar, semakin tinggi prority-nya (10 lebih besar dari 9)
+        category: 5,
+        tags: 1
+    }
+})
+
+#Get index
+db.products.getIndexes()
+
+#Search products with text 'mie'
+db.products.find({
+    $text: {
+        $search: 'mie'
+    }
+})
+
+#Search products with text 'mie' or 'laptop'
+db.products.find({
+    $text: {
+        $search: 'mie laptop'
+    }
+})
+
+#Search products with text 'mie sedap'
+db.products.find({
+    $text: {
+        $search: '"mie sedap"'
+    }
+})
+
+#Debuging query optimization
+db.products.find({
+    $text: {
+        $search: 'mie -sedap'
+    }
+})
+
+db.products.find({
+    $text: {
+        $search: 'mie -sedap'
+    }
+}).explain()
+
+
+##$meta Operator
+Dalam operasi $text, $meta bisa digunakan untuk mendapatkan text score hasil pencarian. Hal ini bermanfaat untuk membantu proses debugging.
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/meta/
+
+db.products.find({
+    $text: {
+        $search: 'mie laptop'
+    }
+}, {
+    searchScore: {
+        $meta: 'textScore'
+    }
+})

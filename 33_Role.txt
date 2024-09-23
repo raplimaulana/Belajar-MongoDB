@@ -1,0 +1,56 @@
+### ROLE ###
+
+##Custom Role
+Sebenarnya menggunakan Built In Role sudah cukup ketika membuat user, namun pada kasus tertentu jika kita ingin membuat Role sendiri, itu juga bisa kita lakukan di MongoDB.
+Built In Role kebanyakan membatasi hak akses di level database.
+Kadang kita ingin membatasi di level collection.
+Untuk melakukan itu, kita bisa menggunakan privileges.
+
+##Role Function
+---------------------------------------
+|     Function    |     Keterangan    |
+|-----------------|-------------------|
+| db.updateRole() | Membuat role baru |
+|-----------------|-------------------|
+| db.getRoles()   | Mendapatkan role  |
+|-----------------|-------------------|
+| db.deleteRole() | Menghapus role    |
+|-----------------|-------------------|
+| db.updateRole() | Mengubah role     |
+|-----------------|-------------------|
+
+##Role Management
+#Create role with custom privileges
+db.createRole({
+    role: 'session_management',
+    roles: [
+        {
+            role: 'read',
+            db: 'belajar'
+        }
+    ],
+    privileges: [
+        {
+            resource: {
+                db: "belajar",
+                collection: "sessions"
+            },
+            actions: ["insert"]
+        }
+    ]
+})
+
+#Show all roles with privileges
+db.getRoles({
+    showPrivileges: true
+})
+
+#Create user with custom role
+db.createUser({
+    user: 'eko',
+    pwd: 'eko',
+    roles: ['session_management']
+})
+
+#Login
+"mongodb://eko:eko@localhost:27017/test?authSource=admin"

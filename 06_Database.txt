@@ -1,0 +1,35 @@
+### DATABASE ###
+Database adalah tempat menyimpan collection.
+Semua collection harus disimpan di database.
+Biasanya database digunakan untuk memisahkan data secara logical per aplikasi, artinya biasanya satu aplikasi akan memiliki satu database.
+Jarang sekali kita akan menggunakan satu database untuk beberapa aplikasi.
+
+##Membuat Database
+Kita tidak perlu secara eksplisit membuat database.
+MongoDB akan secara otomatis membuatkan database sesuai dengan nama database yang kita pilih.
+Untuk memilih nama database, kita bisa menggunakan perintah “use” diikuti nama database.
+
+#menampilkan semua database
+show databases;
+
+#Memilih database
+use belajar;                 #jika tidak ada, akam terbuat baru
+
+*Setelah membuat database baru yang sebalumnya tidak ada, maka hrus ditambahkan collection.
+ Jika tidak, databasenya akan terhapus dan tidak terbuat.
+
+
+##Database Methods
+---------------------------------------------------------------
+| Database Methods  |              Keterangan                 |
+|-------------------|-----------------------------------------|
+| db.dropDatabase() | Menghapus database                      |
+|-------------------|-----------------------------------------|
+| db.getName()      | Mengambil nama database                 |
+|-------------------|-----------------------------------------|
+| db.hostInfo()     | Mengambil informasi host tempat mongodb |
+|-------------------|-----------------------------------------|
+| db.version()      | Mengambil versi database                |
+|-------------------|-----------------------------------------|
+| db.stats()        | Mengambil statistik pengguna daabase    |
+|-------------------|-----------------------------------------|

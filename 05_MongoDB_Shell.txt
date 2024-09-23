@@ -1,0 +1,12 @@
+### MONGODB SHELL ###
+Pada kasus kita menggunakan sistem operasi yang berbasis terminal, seperti Linux Server, maka kita tidak bisa menggunakan aplikasi berbasis GUI seperti MongoDB Compass.
+MongoDB juga menyediakan aplikasi client berbasis terminal, bernama MongoDB Shell.
+Kita bisa download dan menggunakannya secara gratis.
+https://www.mongodb.com/products/shell 
+
+##Menggunakan MongoDB Shell
+Untuk menggunakan MongoDB Shell, kita cukup extract archive file yang sudah kita download,  lalu didalamnya terdapat file bin/mongosh.
+Kita bisa gunakan perintah berikut untuk terkoneksi ke MongoDB Server.
+bin/mongosh mongodb://host:port/namadatabase
+
+/mongodb-arch64-7.0.0/bin/mongosh "mongodb://localhost:27017/test"

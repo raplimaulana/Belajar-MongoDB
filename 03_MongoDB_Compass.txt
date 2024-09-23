@@ -1,0 +1,13 @@
+### MONGODB COMPASS ###
+
+##MongoDB Client
+Tidak seperti aplikasi database lainnya (MySQL / PostgreSQL), MongoDB hanya berjalan sebagai aplikasi Server saja.
+Jika kita ingin terkoneksi ke MongoDB, kita harus menggunakan aplikasi client nya.
+Ada banyak pilihan yang bisa kita gunakan untuk menggunakan aplikasi client, ada yang  berbasis terminal, atau GUI (Graphical User Interface).
+Salah satu yang disediakan oleh MongoDB adalah MongoDB Compass.
+
+##MongoDB Compass
+MongoDB Compass adalah aplikasi berbasis GUI yang bisa kita gunakan secara gratis sebagai aplikasi client untuk MongoDB.
+Selain itu, salah satu hal yang bagus di MongoDB Compass, dia mendukung perintah Terminal, sehingga kita bisa mengetikkan perintah untuk dijalankan di MongoDB.
+Silahkan download dan install aplikasi MongoDB Compass sebelum melanjutkan materi ini.
+https://www.mongodb.com/products/compass 

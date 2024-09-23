@@ -1,0 +1,38 @@
+### SECURITY ###
+
+##Security
+Secara default, jika kita menjalankan MongoDB, mode yang dijalankan tidaklah aman.
+Tidak ada Authentication dan tidak ada Authorization.
+Agar aman, kita harus mengaktifkan fitur access control di MongoDB.
+
+##User Admin
+User admin harus ada terlebih dahulu sebelum kita mengaktifkan access control.
+User admin adalah user yang memiliki role userAdminAnyDatabase dan readWriteAnyDatabase.
+Setelah membuat user admin, kita bisa menjalankan ulang MongoDB dengan perintah --auth.
+
+#Admin User
+use admin
+
+db.createUser({
+    user: 'contoh',
+    pwd: 'contoh',
+    roles: [
+        {
+            role: 'read',
+            db: 'test'
+        }
+    ]
+})
+
+##Menjalankan Ulang Mongodb
+Gunakan perintah seperti berikut untuk mengaktifkan fitur Security.
+bin/mongod --auth --dbpath=lokasi/data/
+
+/mongodb-arch64-7.0.0/bin/mongod --auth --dbpath=data
+
+##MongoDB Client
+Sekarang, untuk terkoneksi ke MongoDB Server menggunakan MongoDB Client, kita wajib menggunakan username dan password yang sudah kita buat sebelumnya.
+Gunakan koneksi URL seperti berikut :
+bin/mongosh “mongodb://username:password@host:port/database?authSource=admin”
+
+"mongodb://mongo:mongo@localhost:27017/belajar?authSource=admin"
